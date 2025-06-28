@@ -5,18 +5,18 @@
 
 ## Endpoints implementados
 
-Productos (/api/products)
-POST → Crear producto
-GET → Listar productos
-GET /{id} → Obtener producto por ID
-PUT /{id} → Actualizar producto
-PATCH /{id} → Desactivar producto
-Clientes (/api/customers)
-POST → Crear cliente
-GET → Listar clientes
-Órdenes (/api/orders)
-POST → Crear orden
-GET → Listar órdenes
+### Productos (/api/products)
+- POST → Crear producto
+- GET → Listar productos
+- GET /{id} → Obtener producto por ID
+- PUT /{id} → Actualizar producto
+- PATCH /{id} → Desactivar producto
+- Clientes (/api/customers)
+- POST → Crear cliente
+- GET → Listar clientes
+- Order (/api/orders)
+- POST → Crear orden
+- GET → Listar órdenes
 
 ## Configurar y ejecutar el proyecto localmente
 ### Clonar el repositorio
