@@ -1,31 +1,25 @@
-# Trabajo Práctico Integrador
-## Desarrollo de Software
-### Backend
-
-## Introducción
-Se desea desarrollar una plataforma de comercio electrónico (E-commerce). 
-En esta primera etapa el objetivo es construir el módulo de Órdenes, permitiendo la gestión completa de éstas.
-
-## Visión General del Producto
-Del relevamiento preliminar se identificaron los siguientes requisitos:
-- Los visitantes pueden consultar los productos sin necesidad de estar registrados o iniciar sesión.
-- Para realizar un pedido se requiere el inicio de sesión.
-- Una orden, para ser aceptada, debe incluir la información básica del cliente, envío y facturación.
-- Antes de registrar la orden se debe verificar la disponibilidad de stock (o existencias) de los productos.
-- Si la orden es exitosa hay que actualizar el stock de cada producto.
-- Se deben poder consultar órdenes individuales o listar varias con posibilidad de filtrado.
-- Será necesario el cambio de estado de una orden a medida que avanza en su ciclo de vida.
-- Los administradores solo pueden gestionar los productos (alta, modificación y baja) y actualizar el estado de la orden.
-- Los clientes pueden crear y consultar órdenes.
-
-[Documento completo](https://frtutneduar.sharepoint.com/:b:/s/DSW2025/ETueAd4rTe1Gilj_Yfi64RYB5oz9s2dOamxKSfMFPREbiA?e=azZcwg) 
-
-## Alcance para el Primer Parcial
-> [!IMPORTANT]
-> Del apartado `IMPLEMENTACIÓN` (Pag. 7), completo hasta el punto `6` (inclusive)
+## Integrantes del grupo
+- **Alumno 1:** fernando Paul Alonso Iglesias – Legajo 58282
+- **Alumno 2:** Nombre Apellido – Legajo 67890  
+- **Alumno 3:** Nombre Apellido – Legajo 54321  
 
 
-### Características de la Solución
+## Configurar y ejecutar el proyecto localmente
+###Clonar el repositorio
+ - Abre una terminal y ejecuta:
+ - git clone https://github.com/Samira-2513/Dsw2025Tpi.git
+ - cd Dsw2025Tpi
+###Abrir la solución en Visual Studio
+ - Dentro de la carpeta Dsw2025Tpi, localiza el archivo Dsw2025Tpi.sln.
+ - Haz doble clic para cargar la solución en Visual Studio.
+###Crear y aplicar la migración
+ - Abre la Consola del Administrador de Paquetes en Visual Studio (Tools → NuGet Package Manager → Package Manager Console).
+ - Asegúrate de que el Default project sea tu proyecto de datos (donde está el DbContext).
+ - Ejecuta:
+ - Add-Migration InitialCreate
+ - Update-Database
+ - Esto generará las tablas y esquemas en tu base de datos según tus entidades y OnModelCreating.
+###Ejecutar la API
+ - En Visual Studio, selecciona el proyecto Dsw2025Tpi.Api como proyecto de inicio.
+ - Presiona F5 o haz clic en el botón IIS Express/Play para compilar y levantar la API.
 
-- Lenguaje: C# 12.0
-- Plataforma: .NET 8
