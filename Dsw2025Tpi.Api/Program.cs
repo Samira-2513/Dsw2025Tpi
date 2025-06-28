@@ -21,11 +21,12 @@ public class Program
         {
             options.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Dsw2025Db;Integrated Security=True;");
         });
-
         builder.Services.AddSwaggerGen();
         builder.Services.AddHealthChecks();
         builder.Services.AddScoped<IRepository, EfRepository>();
         builder.Services.AddTransient<ProductsManagementService>();
+        builder.Services.AddTransient<CustomerManagementService>();
+        builder.Services.AddTransient<OrderManagementService>();
 
         var app = builder.Build();
 

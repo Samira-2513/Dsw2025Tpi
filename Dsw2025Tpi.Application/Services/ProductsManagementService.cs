@@ -1,12 +1,6 @@
 ﻿using Dsw2025Tpi.Application.Dtos;
-using Dsw2025Tpi.Data;
 using Dsw2025Tpi.Domain.Entities;
 using Dsw2025Tpi.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dsw2025Tpi.Application.Services
 {
@@ -31,61 +25,61 @@ namespace Dsw2025Tpi.Application.Services
             return await _repo.GetById<Product>(id);
         }
 
-        public async Task<Response> AddProduct(Request request)
+        public async Task<ProductResponse> AddProduct(ProductRequest request)
         {
-            // 1. Validación de los campos obligatorios
             if (string.IsNullOrWhiteSpace(request.Sku) ||
                 string.IsNullOrWhiteSpace(request.Name) ||
-                request.Price < 0)
+                request.CurrentUnitPrice < 0)
             {
                 throw new ArgumentException("Valores para el producto no válidos");
             }
 
-            // 2. Verificar si ya existe un producto con el mismo SKU
             var existing = await _repo.First<Product>(p => p.Sku == request.Sku);
             if (existing != null)
             {
                 throw new DuplicatedEntityException($"Ya existe un producto con el Sku {request.Sku}");
             }
 
-            // 3. Crear y persistir la entidad Product
-            var product = new Product(request.Sku, request.Name, request.Description, request.Price, request.Stock);
-            await _repo.Add<Product>(product);
+            var p = new Product(request.Sku,request.InternalCode, request.Name, request.Description, request.CurrentUnitPrice, request.stockQuantity);
+            await _repo.Add<Product>(p);
 
-            // 4. Devolver sólo el ID en el DTO de respuesta
-            return new Response(product.Id,
-                product.Sku,
-                product.Name,
-                product.Description,
-                product.Price,
-                product.Stock,
-                product.IsActive);
+            return new ProductResponse(p.Id,
+                p.Sku,
+                p.InternalCode,
+                p.Name,
+                p.Description,
+                p.currentUnitPrice,
+                p.stockQuantity,
+                p.IsActive);
         }
-        public async Task<Response> UpdateProduct(Guid id, Request request)
+        public async Task<ProductResponse> UpdateProduct(Guid id, ProductRequest request)
         {
-            // 1. Validación de datos de entrada
-            //ProductValidator.Validate(request.Sku, request.Name, request.Price, request.Stock);
+            if (string.IsNullOrWhiteSpace(request.Sku) ||
+                string.IsNullOrWhiteSpace(request.Name) ||
+                request.CurrentUnitPrice < 0)
+            {
+                throw new ArgumentException("Valores para el producto no válidos");
+            }
 
-            // 2. Obtener entidad
             var p = await _repo.GetById<Product>(id);
             if (p == null)
                 throw new KeyNotFoundException($"Producto con Id '{id}' no encontrado.");
 
-            // 3. Actualizar precio y stock
-            p.ChangePrice(request.Price);
-            p.AdjustStock(request.Stock - p.Stock);
+            p.ChangeName(request.Name);
+            p.ChangePrice(request.CurrentUnitPrice);
+            p.AdjustStock(request.stockQuantity - p.stockQuantity);
+            p.ChangeDescription(request.Description);
 
-            // 4. Persistir cambios
             await _repo.Update<Product>(p);
 
-            // 5. Devolver DTO completo
-            return new Response(
+            return new ProductResponse(
                 p.Id,
                 p.Sku,
+                p.InternalCode,
                 p.Name,
                 p.Description,
-                p.Price,
-                p.Stock,
+                p.currentUnitPrice,
+                p.stockQuantity,
                 p.IsActive
             );
         }

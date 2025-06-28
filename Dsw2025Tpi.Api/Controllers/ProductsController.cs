@@ -1,7 +1,5 @@
-﻿
-using Dsw2025Tpi.Application.Dtos;
+﻿using Dsw2025Tpi.Application.Dtos;
 using Dsw2025Tpi.Application.Services;
-using Dsw2025Tpi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -16,12 +14,17 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet()]
-    public async Task<ActionResult<IEnumerable<Response>>> GetAll()
+    public async Task<ActionResult<IEnumerable<ProductResponse>>> GetAll()
     {
         var products = await _servi.GetProducts();
         var list = products!
-            .Select(p => new Response(p.Id, p.Sku, p.Name, p.Description,
-                                             p.Price, p.Stock, p.IsActive));
+            .Select(p => new ProductResponse(p.Id, p.Sku,p.InternalCode, p.Name, p.Description,
+                                             p.currentUnitPrice, p.stockQuantity, p.IsActive));
+        if (!list.Any())
+        {
+            return NoContent();
+        }
+
         return Ok(list);
     }
 
@@ -34,12 +37,12 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddProduct([FromBody] Request request)
+    public async Task<IActionResult> AddProduct([FromBody] ProductRequest request)
     {
         try
         {
             var product = await _servi.AddProduct(request);
-            return Ok(product);
+            return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
         }
         catch (ArgumentException ae)
         {
@@ -55,7 +58,7 @@ public class ProductsController : ControllerBase
         }
     }
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] Request request)
+    public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] ProductRequest request)
     {
         try
         {
@@ -75,18 +78,13 @@ public class ProductsController : ControllerBase
             return Problem("Se produjo un error al actualizar el producto");
         }
     }
-
-
-
-
-        [HttpPatch("{id}")]
-        public async Task<ActionResult> Disable(Guid id)
-        {
-            var p = await _servi.GetProductById(id);
-            if (p is null) return NotFound();
-
-            p.Disable();
-            await _servi.Elimi(p);
-            return NoContent();
-        }
+    [HttpPatch("{id}")]
+    public async Task<ActionResult> Disable(Guid id)
+    {
+        var p = await _servi.GetProductById(id);
+        if (p is null) return NotFound();
+        p.Disable();
+        await _servi.Elimi(p);
+        return NoContent();
+    }
 }

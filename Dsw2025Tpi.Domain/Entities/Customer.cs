@@ -8,22 +8,21 @@ namespace Dsw2025Tpi.Domain.Entities
 {
     public class Customer : EntityBase
     {
-        // Constructor vacío para EF
         private Customer() { }
-
-        // Constructor de negocio
-        public Customer(string name, string email)
+        public Customer(string name, string email, string phoneNumber)
         {
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("El nombre es obligatorio.", nameof(name));
+                throw new ArgumentException("Campo Nombre Vacio", nameof(name));
             if (string.IsNullOrWhiteSpace(email))
-                throw new ArgumentException("El email es obligatorio.", nameof(email));
+                throw new ArgumentException("Campo Email Vacio", nameof(email));
 
             Name = name;
             Email = email;
+            PhoneNumber = phoneNumber;
         }
 
         public string Name { get; private set; }
         public string Email { get; private set; }
+        public string PhoneNumber { get; private set; }
     }
 }
