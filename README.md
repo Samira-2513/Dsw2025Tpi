@@ -1,8 +1,22 @@
 ## Integrantes del grupo
-- **Alumno 1:** fernando Paul Alonso Iglesias – Legajo 58282
+- **Alumno 1:** Fernando Paul Alonso Iglesias – Legajo 58282
 - **Alumno 2:** Nombre Apellido – Legajo 67890  
 - **Alumno 3:** Nombre Apellido – Legajo 54321  
 
+## Endpoints implementados
+
+Productos (/api/products)
+POST → Crear producto
+GET → Listar productos
+GET /{id} → Obtener producto por ID
+PUT /{id} → Actualizar producto
+PATCH /{id} → Desactivar producto
+Clientes (/api/customers)
+POST → Crear cliente
+GET → Listar clientes
+Órdenes (/api/orders)
+POST → Crear orden
+GET → Listar órdenes
 
 ## Configurar y ejecutar el proyecto localmente
 ### Clonar el repositorio
